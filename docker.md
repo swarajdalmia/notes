@@ -241,11 +241,30 @@ There are two types of mounting: volume mounting and bind mounting. Volume mount
 Using -v is the old style and the newer style is `--mount`. Docker uses storage drivers to enable layered architecture. 
 
 
+## Docker Compose
 
+Requires knowledge of YAML. Normally when setting up a container,one used `docker run` for various libraries/packages. Instead of doing that it is useful to speciify a YAML file and use `<filename> up` to set up a container. 
 
+When one runs a lot of containers and wants to specify ports and link the containers together, its simpler to use a docker compose yml file. Check 1:26:30 of [video](https://www.youtube.com/watch?v=fqMOX6JJhGo&t=68s) for an example. One can also build an image from a code folder in the yml file. One can also specify a network and make connections through the YML file. 
 
+## Docker Registry 
 
+When say one runs `docker run nginx`, nginx is the name of an image. When nginx is written it means nginx/nginx, which correspons to `<user/account name>/<image/repository name>`. These images are by default pulled from docker hub, the name for which is 'docker.io'. gcr.io is google's registry that has a lot of kubernetes stuff. 
 
+ 
+Private registry - lots of websites provide private registries. One needs to login first via the terminal to use them. It is possible to deply ones own private registry too, on the docker host. 
+Look at 1:38:50 in the link.
+
+## Docker Engine 
+
+A docker engine is simply the host with docker running on it. 
+When one installs docker on linux, 3 things are installed: Docker Deamon(manages docker objects), REST API(communication between programs and the deamon) and Docker CLI(cmd line interface). The CLI can be on another host too and one can specify the remote host with -H flag.
+
+Docker uses namespaces to isolate workspace and ensure containerization. 
+
+### cgroups 
+
+Since the containers and the host share memory and CPU of the host. It is possible the container might over utilize these resources. Docker used cgroups to limit usage. An example of setting a limit of max:50% for a CPU is `docker run --cpus=.5 ubuntu`, or `docker run --memory=100m ununtu`.
 
 
 
