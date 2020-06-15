@@ -196,7 +196,7 @@ One can also start the built from specific layers/steps instead of failure of so
 
 This is useful when one changes the source code. In this case, on the layers including and below the source code need to be rebuilt.
 
-Even when a different container is built, it will reuse layers from the cache that were saved for other conatiners.
+Even when a different container is built, it will reuse layers from the cache that were saved for other containers.
 
 ## Docker : Commands, Arguments and EntryPoint
 
