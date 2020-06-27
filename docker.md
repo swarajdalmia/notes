@@ -2,9 +2,9 @@
 
 The notes are made primarily from [here](https://www.youtube.com/watch?v=fqMOX6JJhGo&t=68s).
 
-## Why does one need docker ?
+## why does one need docker ?
 
-- Combatibility matrix, for application stack requiring difference software's requiring different version of depencies, libraries and compatibility with different versions/types of OS, Everytime something changes, do through the same process of checking everything. 
+- Compatibility matrix, for application stack requiring difference software's requiring different version of depencies, libraries and compatibility with different versions/types of OS, Everytime something changes, do through the same process of checking everything. 
 - Very complex setup time for environment for new developers, often commands in the hundreds.
 - different dev/test/prod envionments hence issues in knowning whether the app would run the same in different envionments.
 
@@ -265,8 +265,4 @@ Docker uses namespaces to isolate workspace and ensure containerization.
 ### cgroups 
 
 Since the containers and the host share memory and CPU of the host. It is possible the container might over utilize these resources. Docker used cgroups to limit usage. An example of setting a limit of max:50% for a CPU is `docker run --cpus=.5 ubuntu`, or `docker run --memory=100m ununtu`.
-
-
-
-
 
