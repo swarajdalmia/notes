@@ -4,14 +4,24 @@ Every device connected to a network—computer, tablet, camera, whatever—needs
 
 It looks something like `192.168.0.15`. An IP address is always a set of four numbers like that. Each number can range from 0 to 255. The combinations are 4.29 billion addresses. 
 
-## Decomposing an IP Address
+## TCP/IP
 
-A device’s IP address actually consists of two separate parts:
+TCP/IP stands for Transmission Control Protocol/Internet Protocol. TCP/IP is a set of standardized rules that allow computers to communicate on a network such as the internet.
 
-- Network ID: The network ID specifics the network on which the device is located. The first three parts of an IP is the network ID. It is convention to add a zero as the last part when specifying it. 
+IP is the part that obtains the address to which data is sent. TCP is responsible for data delivery once that IP address has been found. TCP checks packets for errors and submits requests for re-transmissions if any are found.
 
-- Host ID: The last number, and it is used to identify the host within the network.
+Three of the most common TCP/IP protocols:
+- HTTPS
+- HTTP
+- FTP 
 
+[Example of a TCP/IP packet](https://www.computerhope.com/jargon/t/tcpip.htm).
+
+Diff layers of TCP/IP:
+- Network Access Layer : This layer is concerned with building packets. 
+- Internet Layer : This layer uses IP (Internet Protocol) to describe how packets are to be delivered.
+- Transport Layer : This layer utilizes UDP (User Datagram Protocol) and TCP (Transmission Control Protocol) to ensure the proper transmission of data.
+- Application Layer : This layer deals with application network processes like HTTP.
 ### Subnetting 
 
 Devices use another number called the subnet mask to distinguish the network and the host id. A common/common subnet mask is `255.255.255.0`. The position of the changes from 255 to 0 indicate the division between the network and host ID. The 255s “mask out” the network ID from the equation. People often use custom subnet masks to create multiple subnets on the same network.
@@ -73,3 +83,12 @@ The most efficient way to keep yourself safe online is to hide your real IP addr
 
 ## What is a MAC Address ?
 
+More and more people created their own private networks, using those pece of hardware on your local network has a MAC address in addition to the IP address assigned to it by the local router or server. 
+
+A MAC(Media Access Control Address) address is a number assigned to the NIC(Netowrk Interface Card) card by the manufacturer. A MAC address uniquely identifies a device that wants to take part in a network. The IP address identifies a connection to a device in a network.
+
+MAC address is a 48-bit hexadecimal address. MAC address is used at the data link layer of OSI/TCP/IP model.  
+
+[Diff. between mac address and IP address](https://techdifferences.com/difference-between-mac-and-ip-address.html). 
+
+ 
