@@ -50,8 +50,8 @@ There are basically two kinds of parallelism in applications:
 
 Computer hardware in turn can exploit these two kinds of application parallelism in four major ways:
 - Instruction-level parallelism exploits data-level parallelism at modest levels with compiler help using ideas like pipelining and at medium levels using ideas like speculative execution.
-- Vector architectures, graphic processor units (GPUs), and multimedia instruc- tion sets exploit data-level parallelism by applying a single instruction to a col- lection of data in parallel.
-- Thread-levelparallelismexploitseitherdata-levelparallelismortask-levelpar- allelism in a tightly coupled hardware model that allows for interaction between parallel threads.
+- Vector architectures, graphic processor units (GPUs), and multimedia instruction sets exploit data-level parallelism by applying a single instruction to a col- lection of data in parallel.
+- Thread-level parallelism exploits either data-level parallelism or task-level parallelism in a tightly coupled hardware model that allows for interaction between parallel threads.
 - Request-level parallelism exploits parallelism among largely decoupled tasks specified by the programmer or the operating system.
 
 When Flynn (1966) studied the parallel computing efforts in the 1960s, he found a simple classification whose abbreviations we still use today.
@@ -63,6 +63,21 @@ When Flynn (1966) studied the parallel computing efforts in the 1960s, he found 
 This taxonomy is a coarse model, as many parallel processors are hybrids of the SISD, SIMD, and MIMD classes. 
 
 ### Defining Computer Architecture
+
+Discusess what are the broad contours of architecture which seems to include everything in design, aimed at performance, energy effiency, cost, efficiency.  This task has many aspects, including instruction set design, functional organization, logic design, and implementation. The implementation may encompass integrated circuit design, packaging, power, and cooling. 
+
+#### Myopic View : Instruction Set Architecture(ISA)
+The ISA serves as the boundary between the software and hardware. 
+This quick review of ISA will use examples from 80x86, ARMv8, and RISC-V to illustrate the seven dimensions of an ISA. The most popular RISC processors come from ARM (Advanced RISC Machine), which were in 14.8 billion chips shipped in 2015, or roughly 50 times as many chips that shipped with 80x86 processors. 
+
+
+
+
+
+
+
+
+
 
 
 
