@@ -43,17 +43,26 @@ This 50,000-fold performance improvement since 1978 allowed modern programmers t
 
 Currently the only path left to improve energy-performance-cost is specialization. Future microprocessors will include several domain-specific cores that perform only one class of computations well, but they do so remarkably better than general-purpose cores. 
 
-### Classes of Computers
+### Classes of Parallelism and Parallel Architectures
+There are basically two kinds of parallelism in applications:
+1. Data-level parallelism (DLP) arises because there are many data items that can be operated on at the same time.
+2. Task-level parallelism (TLP) arises because tasks of work are created that can operate independently and largely in parallel.
 
+Computer hardware in turn can exploit these two kinds of application parallelism in four major ways:
+- Instruction-level parallelism exploits data-level parallelism at modest levels with compiler help using ideas like pipelining and at medium levels using ideas like speculative execution.
+- Vector architectures, graphic processor units (GPUs), and multimedia instruc- tion sets exploit data-level parallelism by applying a single instruction to a col- lection of data in parallel.
+- Thread-levelparallelismexploitseitherdata-levelparallelismortask-levelpar- allelism in a tightly coupled hardware model that allows for interaction between parallel threads.
+- Request-level parallelism exploits parallelism among largely decoupled tasks specified by the programmer or the operating system.
 
+When Flynn (1966) studied the parallel computing efforts in the 1960s, he found a simple classification whose abbreviations we still use today.
+1. Single instruction stream, single data stream (SISD) — This category is the uniprocessor i.e. standard sequential computer, but it can exploit ILP techniques such as superscalar and speculative execution.
+2. Single instruction stream, multiple data streams (SIMD) — The same instruction is executed by multiple processors using different data streams. SIMD computers exploit data-level parallelism by applying the same operations to multiple items of data in parallel. Each processor has its own data memory, but there is a single instruction memory and control processor, which fetches and dispatches instructions. It is used in vector architectures, multimedia extensions to standard instruction sets, and GPUs.
+3. Multipleinstructionstreams,singledatastream(MISD) — No commercial multiprocessor of this type has been built to date, but it rounds out this simple classification.
+4. Multiple instruction streams, multiple data streams (MIMD) — Each processor fetches its own instructions and operates on its own data, and it targets task-level parallelism. In general, MIMD is more flexible than SIMD and thus more generally applicable, but it is inherently more expensive than SIMD. This overhead means that grain size must be sufficiently large to exploit the parallelism efficiently.
 
+This taxonomy is a coarse model, as many parallel processors are hybrids of the SISD, SIMD, and MIMD classes. 
 
-
-
-
-
-
-
+### Defining Computer Architecture
 
 
 
