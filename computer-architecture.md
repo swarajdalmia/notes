@@ -4,6 +4,8 @@ These are notes taken while reading, Hennessy, Patterson: Computer Architecture:
 ## Foreword
 Much of the improvement in computer performance over the last 40 years has been provided by computer architecture advancements that have leveraged **Moore’s Law**(1965 claim by Gordon Moore) and **Dennard scaling**(1974 paper) to build larger and more parallel systems. Moore’s Law is the observation that the maximum number of transistors in an integrated circuit doubles approximately every two years. Dennard scaling states, roughly, that as transistors get smaller, their power density stays constant, so that the power use stays in proportion with area; both voltage and current scale (downward) with length.
 
+[Video : Moore's law in details](https://www.youtube.com/watch?v=I4yPek19cn8).
+
 Combined with Moore's law, dennard scaling means in every technology generation, if the transistor density doubles, the circuit becomes faster, and power 
 consumption (with twice the number of transistors) stays the same. This means that performance per watt grows even faster, doubling about every 18 months. 
 This trend is sometimes referred to as Koomey's law.
@@ -33,7 +35,7 @@ Two significant changes made it easier to succeed commercially. First, the virtu
 
 These changes made it possible to develop successfully a new set of architectures with simpler instructions, called RISC (Reduced Instruction Set Computer) architectures, in the early 1980s. THese machines focused on 2 critical performance techniques, the exploitation of instruction-level parallelism (initially through pipelining and later through multiple instruction issue) and the use of caches (initially in simple forms and later using more sophisticated organizations and optimizations). The RISC-based computers raised the performance bar, forcing prior architec- tures to keep up or disappear. Intel rose to the challenge, primarily by translating 80x86 instructions into RISC-like instructions internally, allowing it to adopt many of the innovations first pioneered in the RISC designs. As transistor counts soared in the late 1990s, the hardware overhead of translating the more complex x86 architecture became negligible. 
 
-![](./computing-performance.jpeg)
+![](./images/computing-performance.jpeg)
 
 **Amdahl’s Law** : It prescribes practical limits to the number of useful cores per chip. If 10% of the task is serial, then the maximum performance benefit from parallelism is 10 no matter how many cores you put on the chip.
 
@@ -70,13 +72,31 @@ Discusess what are the broad contours of architecture which seems to include eve
 The ISA serves as the boundary between the software and hardware. 
 This quick review of ISA will use examples from 80x86, ARMv8, and RISC-V to illustrate the seven dimensions of an ISA. The most popular RISC processors come from ARM (Advanced RISC Machine), which were in 14.8 billion chips shipped in 2015, or roughly 50 times as many chips that shipped with 80x86 processors. 
 
+While reading about the differences between 80x86, "ARMv8, and RISC-V" i came across a few other things. 
 
+- RISC(reduced instruction set computing) vs CISC(complex instruction set computing) ? [video explanation](https://www.youtube.com/watch?v=g16wZWKcao4)
+ARM, and RISC-V is RISC, while x\*86 is CISC is its design. 
+RISC has a simpler instruction set and is geared to faster design. CISC went with the idea of software mirroring hardware. 
+RISC instruction size is small and almost constrant while it varies a lot for CISC. RISC tries to execute 1 instruction per clock cycle while thats not the case for 
+CISC. RISC doesnt do any operations directly on memory(only load and store access memory). In RISC(Relegate Important Stuff to Complier), the compiler plays a big role in optimisation ! CISC is used in servers, desktops while RISC is used in notebooks, tablets and mobile devices. IBM used a power architecture which is RISC based. 
 
+- ARM vs x\*86 ([article](https://www.androidauthority.com/arm-vs-x86-key-differences-explained-568718/), [video](https://www.youtube.com/watch?v=AADZo73yrq4).
+ARM is RISC while \x86 is CISC. If you want the lowest power CPU, keeping the instruction set simple is paramount. However, higher performance can be obtained from more complex hardware and instructions at the expense of power. This is a fundamental difference between Arm’s and Intel’s approaches to CPU design. x86 traditionally targets peak performance, Arm energy efficiency.
+- RISC-V [article](https://www.tomshardware.com/news/big-tech-players-risc-v-architecture,36011.html) [video](https://www.youtube.com/watch?v=4qBKOAv0sBI)
+The initial version of the RISC-V ISA started development at the University of California, Berkeley, in 2010. The academics there wanted to develop a more modern and more efficient ISA for the 21st century that removes the legacy cruft and many mistakes built into multi-decade old instruction sets such as x86 and ARM. The researchers also wanted an ISA that is fully open and free for anyone to use for any purpose without having to pay any royalties to anyone.
+In 2015, the RISC-V Foundation was created with more than 100 members and a board of directors that included companies such as Google, Nvidia, Western Digital, NXP, Microsemi, and Bluespec, as well as a representative from UC Berkeley. Since then, chip companies such as AMD, Qualcomm, and IBM have also joined the members list.
 
+However, even apart from ARM, \x86 and RISC-V other ISAs exist. [10 popular ISAs currently](https://www.youtube.com/watch?v=XAf0H1-ujzI)
 
+#### Genuine Computer Architecture
+The implementation of a computer has two components: organization and hardware. The term organization includes the high-level aspects of a computer’s design, such as the memory system, the memory interconnect, and the design of the internal processor or CPU (central processing unit—where arithmetic, logic, branching, and data transfer are implemented). The term microarchitecture is also used instead of organization. For example, two processors with the same instruction set architectures but different organizations are the AMD Opteron and the Intel Core i7. 
 
+Hardware refers to the specifics of a computer, including the detailed logic design and the packaging technology of the computer. Often a line of computers contains computers with identical instruction set architectures and very similar organizations, but they differ in the detailed hardware implementation. For example, the Intel Core i7 (see Chapter 3) and the Intel Xeon E7 (see Chapter 5) are nearly identical but offer different clock rates and different memory systems, making the Xeon E7 more effective for server computers.
 
+In this book, the word architecture covers all three aspects of computer design—instruction set architecture, organization or microarchitecture, and hardware.
+Computer architects must design a computer to meet functional requirements as well as price, power, performance, and availability goals.
 
+### Trends in Technology
 
 
 
