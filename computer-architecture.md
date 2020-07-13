@@ -221,21 +221,98 @@ As we will see in Chapters 4 and 5, performance is now a programmer’s bur- den
 - Falling prey to Amdahl’s heartbreaking law.
 Virtually every practicing computer architect knows Amdahl’s Law. Despite this, we almost all occasionally expend tremendous effort optimizing some feature before we measure its usage. Only when the overall speedup is disappointing do we recall that we should have measured first before we spent so much effort enhancing it!
 
+## Appendix B : Review of Memory Hierarchy
+A cache miss is handled by hardware and causes processors using in-order execu- tion to pause, or stall, until the data are available. With out-of-order execution, an instruction using the result must still wait, but other instructions may proceed during the miss. 
+
+In the memory hierarchy, registors are managed by compiler, caches by hardware, main memory(RAM) by OS and disk storage by OS as well. 
+
+Not all objects referenced by a program need to reside in main(RAM) memory. Virtual memory means some objects may reside on disk. The address space is usually broken into fixed-size blocks, called pages. At any time, each page resides either in main memory or on disk. When the processor references an item within a page that is not present in the cache or main memory, a palt occurs, and the entire page is moved from the disk to main memory.
+
+[Cache basics](https://course.ccs.neu.edu/com3200/parent/NOTES/cache-basics.html)
+
+Example: 
+The original Pentium 4 had a 4-way set associative L1 data cache of size 8 KB with 64 byte cache blocks. Hence, there are 8KB/64 = 128 cache blocks. If it's 4-way set associative, this implies 128/4=32 sets (and hence 2^5 = 32 different indices). There are 64=2^6 possible offsets. Since the CPU address is 32 bits, this implies 32=21+5+6, and hence 21 bits of tag field.
+The original Pentium 4 also had an 8-way set associative L2 integrated cache of size 256 KB with 128 byte cache blocks. This implies 32=17+8+7, and hence 17 bits of tag field.
+
+1. Where Can a Block be Placed in a Cache?
+- fully associative, directly mapped and set associative are discussed. 
+
+2. How Is a Block Found If It Is in the Cache?
+Caches have an address tag on each block frame that gives the block address. As a rule, all possible tags in then cache are searched in parallel because speed is critical. There must be a way to know that a cache block does not have valid information. This is done by adding a valid bit. There are index fields and a block offset which is used when the cache is divided into sets. 
+
+3. Which Block Should be Replaced on a Cache Miss?
+Random, First in first out, least recently used. Since LRU is complicated to calculate, FIFO is a good option. See the table for comparison of miss rates with these different strategies. 
+
+4. What Happens on a Write?
+2 techniques, write through and write back are discussed. To reduce the frequency of writing back blocks on replacement, a feature called the dirty bit is commonly used. This status bit indicates whether the block is dirty (modified while in the cache) or clean (not modified).  
+
+...
+
+##### Six Basic Cache Optimizations
+Hence, we organize six cache optimizations into three categories:
+- Reducing the miss rate—larger block size, larger cache size, and higher associativity
+- Reducing the miss penalty—multilevel caches and giving reads priority over writes
+- Reducing the time to hit in the cache—avoiding address translation when indexing the cache
+
+##### Virtual Memory 
+[What is virtual memory](https://www.youtube.com/watch?v=qlH4-oHnBb8).
+
+
 ## Chapter - 2 : Memory Hierarchy Design 
+An economical solution to that desire is a memory hierar- chy, which takes advantage of locality and trade-offs in the cost-performance of memory technologies. The principle of locality, presented in the first chapter, says that most programs do not access all code or data uniformly. Locality occurs in time (temporal locality) and in space (spatial locality). This principle plus the guideline that for a given implementation technology and power budget, smaller hardware can be made faster led to hierarchies based on memories of different speeds and sizes. 
 
+As Flash and next generation memory technol- ogies continue to close the gap with disks in cost per bit, such technologies are likely to increasingly replace magnetic disks for secondary storage. [Difference beteween HDD and SSD](https://in.pcmag.com/storage/42372/ssd-vs-hdd-whats-the-difference). 
+SSds with flash technology, are faster more durable, don't slow down with fragmented data, have less noise, use less power and have better density. The only reason to use a HDD is because they are cheaper. 
 
+The goal is to provide a memory system with a cost per byte that is almost as low as the cheapest level of memory and a speed almost as fast as the fastest level.
 
+Traditionally, designers of memory hierarchies focused on optimizing average memory access time, which is determined by the cache access time, miss rate, and miss penalty. More recently, however, power has become a major consideration. In high-end microprocessors, there may be 60 MiB or more of on-chip cache, and a large second- or third-level cache will consume significant power both as leakage when not operating (called static power) and as active power, as when performing a read or write (called dynamic power).
 
+### Basics of Memory Hierarchies: A Quick Review
+When a word is not found in the cache, the word must be fetched from a lower level in the hierarchy (which may be another cache or the main memory) and placed in the cache before continuing. Multiple words, called a block (or line), are moved for efficiency reasons, and because they are likely to be needed soon due to spatial locality. Each cache block includes a tag to indicate which memory address it corresponds to.
 
+A key design decision is where blocks (or lines) can be placed in a cache. The most popular scheme is set associative, where a set is a group of blocks in the cache. A block is first mapped onto a set, and then the block can be placed anywhere within that set. A direct-mapped cache has just one block per set (so a block is always placed in the same location), and a fully associative cache has just one set (so a block can be placed anywhere).
 
+Caching data that is only read is easy because the copy in the cache and memory will be identical. Caching writes is more difficult; for example, how can the copy in the cache and memory be kept consistent? There are two main strategies. A write-through cache updates the item in the cache and writes through to update main memory. A write-back cache only updates the copy in the cache. When the block is about to be replaced, it is copied back to memory. Both write strategies can use a write buffer to allow the cache to proceed as soon as the data are placed in the buffer rather than wait for full latency to write the data into memory.
 
+One measure of the benefits of different cache organizations is miss rate. Miss rate is simply the fraction of cache accesses that result in a miss—that is, the number of accesses that miss divided by the number of accesses. Categorization of misses:
+- Compulsory
+- Capacity
+- Conflict : If the block placement strategy is not fully associative, conflict misses will occur because a block may be discarded and later retrieved if multiple blocks map to its set and accesses to the different blocks are intermingled. However, miss rate can be a misleading measure for several reasons. Therefore some designers prefer measuring misses per instruction rather than misses per memory reference. The problem with both measures is that they don’t factor in the cost of a miss. A better measure is the average memory access time. 
 
+Speculative processors may execute other instructions during a miss, thereby reducing the effective miss penalty. The use of multithreading also allows a processor to tolerate misses without being forced to idle.
 
+### Memory Technology and Optimizations
+This section describes the technologies used in a memory hierarchy, specifically in building caches and main memory. These technologies are SRAM (static random- access memory), DRAM (dynamic random-access memory), and Flash. The last of these is used as an alternative to hard disks.
 
+Using SRAM addresses the need to minimize access time to caches. When a cache miss occurs, however, we need to move the data from the main memory as quickly as possible, which requires a high bandwidth memory. This high memory bandwidth can be achieved by organizing the many DRAM chips that make up the main memory into multiple memory banks and by making the memory bus wider, or by doing both.
 
+With the introduction of burst transfer memories, now widely used in both Flash and DRAM, memory latency is quoted using two measures—access time and cycle time. Access time is the time between when a read is requested and when the desired word arrives, and cycle time is the minimum time between unrelated requests to memory.
 
+Virtually all computers since 1975 have used DRAMs for main memory and SRAMs for cache, with one to three levels integrated onto the processor chip with the CPU. PMDs must balance power and performance, and because they have more modest storage needs, PMDs use Flash rather than disk drives, a decision increasingly being followed by desktop computers as well.
 
+##### SRAMs
+SRAMs unlike DRAMs don’t need to refresh, so the access time is very close to the cycle time. SRAMs typically use six transistors per bit to prevent the information from being disturbed when read. SRAM needs only minimal power to retain the charge in standby mode. In earlier times, most desktop and server systems used SRAM chips for their primary, secondary, or tertiary caches. Today, all three levels of caches are inte- grated onto the processor chip. The access times for large, third-level, on-chip caches are typically two to eight times that of a second-level cache. Even so, the L3 access time is usually at least five times faster than a DRAM access.
 
+On-chip, cache SRAMs are normally organized with a width that matches the block size of the cache, with the tags stored in parallel to each block. This allows an entire block to be read out or written into a single cycle. 
+
+##### DRAMs
+An additional requirement of DRAM derives from the property signified by its first letter, D, for dynamic. To pack more bits per chip, DRAMs use only a single transistor, which effectively acts as a capacitor, to store a bit. This has two implications: first, the sensing wires that detect the charge must be precharged, which sets them “halfway” between a logical 0 and 1, allowing the small charge stored in the cell to cause a 0 or 1 to be detected by the sense amplifiers. On reading, a row is placed into a row buffer, where CAS signals can select a portion of the row to read out from the DRAM. Because reading a row destroys the information, it must be written back when the row is no longer needed. This write back happens in overlapped fashion, but in early DRAMs, it meant that the cycle time before a new row could be read was larger than the time to read a row and access a portion of that row.
+
+### Ten Advanced Optimizations of Cache Performance
+
+1. Small and Simple First-Level Caches to Reduce Hit Time and Power
+2. Way Prediction to Reduce Hit Time : Another approach reduces conflict misses and yet maintains the hit speed of direct mapped cache. In way prediction, extra bits are kept in the cache to predict the way (or block within the set) of the next cache access. This prediction means the mul- tiplexor is set early to select the desired block, and in that clock cycle, only a single tag comparison is performed in parallel with reading the cache data.
+3. Pipelined Access and Multibanked Caches to Increase Bandwidth : These optimizations increase cache bandwidth either by pipelining the cache access or by widening the cache with multiple banks to allow multiple accesses per clock; these optimizations are the dual to the superpipelined and superscalar approaches to increasing instruction throughput. These optimizations are primarily targeted at L1, where access bandwidth constrains instruction throughput. Multiple banks are also used in L2 and L3 caches, but primarily as a power-management technique.
+4. Nonblocking Caches to Increase Cache Bandwidth :  nonblocking cache or lockup-free cache esca- lates the potential benefits of such a scheme by allowing the data cache to continue to supply cache hits during a miss. This “hit under miss” optimization reduces the effective miss penalty by being helpful during a miss instead of ignoring the requests of the processor.
+5. Critical Word First and Early Restart to Reduce Miss Penalty : This technique is based on the observation that the processor normally needs just one word of the block at a time. This strategy is impatience: don’t wait for the full block to be loaded before sending the requested word and restarting the processor.
+6. Merging Write Buffer to Reduce Miss Penalty : 
+7. Compiler Optimizations to Reduce Miss Rate : Once again, research is split between improvements in instruction misses and improvements in data misses.
+8. Hardware Prefetching of Instructions and Data to Reduce Miss Penalty or Miss Rate
+9. Compiler-Controlled Prefetching to Reduce Miss Penalty or Miss Rate
+10. Using HBM to Extend the Memory Hierarchy
+
+### Virtual Memory and Virtual Machines
 
 
 
